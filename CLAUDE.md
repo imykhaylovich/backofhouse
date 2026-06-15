@@ -1,31 +1,59 @@
-# BackOfHouse — Multi-Tenant Food Business Management Portal
+## Team split
 
-## What this is
-A SaaS platform for cafes, restaurants, and nonprofits to manage
-inventory, orders, donations, distributions, and reporting.
-Claude is built in as a live chat assistant and weekly report generator.
+### Ivan — backend (owns everything in /backend)
+Week 1:
+- database.py → MySQL connection + SQLAlchemy setup
+- models.py → all table definitions
+- main.py → FastAPI app + CORS + router includes
+- auth.py → JWT + bcrypt helpers
+- routers/auth.py → register + login endpoints
+- schemas.py → Pydantic request/response models
 
-## Stack
-- Backend: Python 3.11, FastAPI, SQLAlchemy (MySQL)
-- Auth: JWT (python-jose), bcrypt
-- Frontend: React + Tailwind CSS (Vite)
-- AI: Anthropic Claude API
-- Email: SendGrid
+Week 2:
+- routers/inventory.py → CRUD endpoints
+- routers/orders.py → cafe/restaurant orders
+- routers/donations.py → nonprofit donations
+- routers/distributions.py → nonprofit distributions
 
-## Multi-tenancy rules (critical)
-- Every table has an org_id column
-- Every API route extracts org_id from the JWT token
-- Every DB query MUST filter by org_id — no exceptions
-- Never expose one org's data to another
+Week 3:
+- services/claude_service.py → Claude API integration
+- routers/claude.py → chat endpoint
+- services/email_service.py → SendGrid setup
+- scheduler.py → weekly report cron job
+- routers/reports.py → report endpoints
 
-## Org types
-- nonprofit → free plan, uses donations + distributions
-- cafe / restaurant → paid plan, uses orders
+Week 4:
+- Bug fixes, testing all endpoints via /docs
+- Help Dima connect frontend to API
 
-## Key business logic
-- Donations auto-increment inventory quantity
-- Distributions auto-decrement (never below 0, raise 400)
-- Orders auto-adjust inventory on fulfillment
-- Weekly reports run every Sunday 8AM via APSchedule- Weekly reports run every Sunday 8AM via APSchedule- Weekivate
-2. Set .env: ANT2. Set .env: ANT2. Set .env: ANT2. Set .env: ANT2. Set .env: AN main:app --reload
-4. cd frontend && npm run dev
+---
+
+### Dima — frontend (owns everything in /frontend)
+Week 1:
+- Set up React project structure
+- Create pages: Login.jsx, Register.jsx
+- Set up react-router-dom routing
+- Set up axios for API calls
+
+Week 2:
+- Onboarding.jsx → questionnaire after first login
+- Dashboard.jsx → main dashboard (org-type aware)
+- Inventory.jsx → inventory table + add/edit forms
+
+Week 3:
+- Orders.jsx → for cafes/restaurants
+- Donations.jsx → for nonprofits
+- Distributions.jsx → for nonprofits
+- Reports.jsx → view weekly reports
+
+Week 4:
+- AskClaude.jsx → chat interface with Claude
+- Low stock alerts component
+- Polish UI, test full user flows
+
+---
+
+## Rule
+Ivan pushes backend changes, Dima pulls and builds UI on top.
+Never edit the other person's folder.
+Always git pull before starting a session.
