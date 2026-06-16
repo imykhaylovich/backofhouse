@@ -8,6 +8,8 @@ class Organization(Base):
 
     #PK
     id=Column(Integer,primary_key=True,index=True)
+
+     #Colums
     name= Column(String(100),nullable=False)
     type = Column(Enum("nonprofit", "cafe", "restaurant", "bakery", "bar", "other"), nullable=False)
     plan=Column(Enum("free","paid"),default="free")
