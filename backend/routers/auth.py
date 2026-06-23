@@ -1,3 +1,11 @@
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from database import get_db
+import models
+import schemas
+from auth import hash_password, verify_password, create_token
+
+router = APIRouter()
 @router.post("/register", response_model=schemas.Token)
 def register(org_data: schemas.OrganizationCreate, user_data: schemas.UserCreate, db: Session = Depends(get_db)):
     # Check if email is already taken
