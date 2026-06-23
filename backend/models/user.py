@@ -4,13 +4,12 @@ from database import Base
 
 
 class User(Base):
-    _tablename_='user'
+    __tablename__ = 'users'
     #PK
     id=Column(Integer,primary_key=True,index=True)
 
     #FK
-    org_id=Column(Integer,ForeignKey("organization.id",ondelete="CASCADE"),
-        nullable=False,index=True)
+    org_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     #Colums
     name= Column(String(100),nullable=False)
     email= Column(String(100),nullable=False,unique=True)

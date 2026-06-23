@@ -4,12 +4,11 @@ from database import Base
 
 
 class Order(Base):
-    _tablename_='order'
+    __tablename__ = 'orders'
     #PK
     id=Column(Integer,primary_key=True,index=True)
     #FK
-    org_id=Column(Integer,ForeignKey("organization.id",ondelete="CASCADE"),
-        nullable=False,index=True)
+    org_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     #Colums
     type=Column(Enum("incoming","outgoing"),nullable=False)
     status=Column(Enum("pending","confirmed","fulfiled","cancelled"),default="pending")

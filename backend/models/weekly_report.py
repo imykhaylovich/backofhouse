@@ -4,11 +4,11 @@ from database import Base
 
 
 class WeeklyReport(Base):
-    _tablename_='weekly_reports'
+    __tablename__ = 'weekly_reports'
     #PK
     id=Column(Integer,primary_key=True,index=True)
     #FK
-    org_id=Column(Integer,ForeignKey("organization.id",ondelete='CASCADE"),nullable=False,index=True)
+    org_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     #Columns
     week_start=Column(Date,nullable=False)
     week_end=Column(Date,nullable=False)

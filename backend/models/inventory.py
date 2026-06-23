@@ -3,13 +3,13 @@ from sqlalchemy.sql import func
 from database import Base
 
 class Inventory(Base):
-    _tablename_='inventory'
+    __tablename__ = 'inventory'
 
     #PK
     id=Column(Integer,primary_key=True,index=True)
 
     #FK
-    org_id=Column(Integer,ForeignKey("organization.id",ondelete='CASCADE"),nullable=False,index=True)
+    org_id = Column(Integer, ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     
     #Colums
     name= Column(String(100),nullable=False)
