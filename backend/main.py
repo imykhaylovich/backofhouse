@@ -2,14 +2,20 @@ from fastapi import FastAPI
 from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 import models
+from routers import auth, inventory
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
 origins = ["http://localhost:5173"]
-from routers import auth
+from routers import auth, inventory, orders, donations, distributions
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(inventory.router, prefix="/inventory", tags=["inventory"])
+app.include_router(orders.router, prefix="/orders", tags=["orders"])
+app.include_router(donations.router, prefix="/donations", tags=["donations"])
+app.include_router(distributions.router, prefix="/distributions", tags=["distributions"])
+
 
 app.add_middleware(
     CORSMiddleware,
