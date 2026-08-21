@@ -57,3 +57,20 @@ Week 4:
 Ivan pushes backend changes, Dima pulls and builds UI on top.
 Never edit the other person's folder.
 Always git pull before starting a session.
+
+## Phase 2 — future features
+
+### Depletion forecasting
+Predict which items will run out and when, based on historical
+distribution/donation data.
+
+Approach:
+- avg daily usage = total distributed over last N days / N
+- days until stockout = current quantity / avg daily usage
+- No ML needed for v1, just arithmetic over existing rows
+
+Integration: inject computed forecasts into the Claude prompt so the
+weekly report can say "Rice will run out before Sunday, order by Thursday"
+instead of just listing current quantities.
+
+Caveat: needs 2+ weeks of usage data before averages are meaningful.
