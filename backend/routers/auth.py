@@ -40,3 +40,14 @@ def register(org_data: schemas.OrganizationCreate, user_data: schemas.UserCreate
     # Build and return the token
     token = create_token({"user_id": new_user.id, "org_id": new_org.id})
     return {"access_token": token, "token_type": "bearer"}
+
+@router.post("/login",response_model=schemas.Token)
+def login(creds: schemas.UserLogin, db: Session= Depends(get_db)):
+    user=db.query(models.User).filter(models.User.email==creds.email).first()
+    if not user or not verify_password(creds.password,user.password_hash):
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect LogIn inforamtion",
+            )
+    token=create_token({"user_id":user.id,"org_id":user.org_id})
+    return {'access_token':token,"token_type":'bearer'}
