@@ -13,7 +13,9 @@ def get_org_data(db,org_id):
     lines=[] #empty list that'll collect one text line per item
     for inventory in inventories:
         lines.append(f"-  {inventory.name}:  {inventory.quantity}: {inventory.unit}")
-        return "\n".join(lines)
+    if not lines:
+        return "No inventory items yet."
+    return "\n".join(lines)
         # glues all lines into one text block; sits 
         #outside the loop so it runs once after every item is processed
 
