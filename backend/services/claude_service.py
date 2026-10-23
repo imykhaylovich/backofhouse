@@ -12,7 +12,7 @@ def get_org_data(db,org_id):
         models.Inventory.org_id==org_id).all()
     lines=[] #empty list that'll collect one text line per item
     for inventory in inventories:
-        lines.append(f"-  {inventory.name}:  {inventory.quantity}: {inventory.unit}")
+        lines.append(f"- {inventory.name}: {inventory.quantity} {inventory.unit} (low below {inventory.low_threshold})")
     if not lines:
         return "No inventory items yet."
     return "\n".join(lines)
@@ -44,3 +44,4 @@ def chat_with_claude(db,org,user_message):
 # 4. Extract — pull the text out of Claude's structured response
 # No fine-tuning needed: data is fetched fresh at request time, so answers
 # always reflect current inventory.
+
