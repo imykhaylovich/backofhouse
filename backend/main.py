@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 import models
-from routers import auth, inventory, orders, donations, distributions, claude
+from routers import auth, inventory, orders, donations, distributions, claude, reports
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
@@ -28,3 +28,4 @@ def root():
     return {"message": "BackOfHouse API is running"}
 
 app.include_router(claude.router, prefix="/claude", tags=["claude"])
+app.include_router(reports.router, prefix="/reports", tags=["reports"])

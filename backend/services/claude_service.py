@@ -1,6 +1,7 @@
 import anthropic
 import os
 from dotenv import load_dotenv
+from datetime import date, timedelta
 
 load_dotenv()
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
@@ -45,3 +46,49 @@ def chat_with_claude(db,org,user_message):
 # No fine-tuning needed: data is fetched fresh at request time, so answers
 # always reflect current inventory.
 
+def generate_weekly_report(db,org):
+    week_end=date.today()
+    week_start=week_end-timedelta(days=7)
+    inventory_data = get_org_data(db, org.id)
+
+    donations = db.query(models.Donation).filter(
+        models.Donation.org_id == org.id,
+        models.Donation.donated_at >= week_start
+    ).all()
+
+    distributions = db.query(models.Distribution).filter(
+        models.Distribution.org_id == org.id,
+        models.Distribution.distributed_at >= week_start
+    ).all()
+
+    donation_units = sum(d.quantity for d in donations)
+    households = sum(d.recipient_count or 0 for d in distributions)
+    prompt = f"""Write a short weekly operations summary for {org.name}, a {org.type}.
+
+Week of {week_start} to {week_end}.
+
+Current inventory:
+{inventory_data}
+
+This week's activity:
+- {len(donations)} donations logged, {donation_units} units received
+- {len(distributions)} distributions, {households} households served
+
+Keep it under 250 words, plain English, for a manager who is not technical.
+Cover: overall status, what needs restocking, and 2-3 action items for next week."""
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=1000,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    report_text = response.content[0].text
+    report = models.WeeklyReport(
+        org_id=org.id,
+        week_start=week_start,
+        week_end=week_end,
+        report_text=report_text,
+    )
+    db.add(report)
+    db.commit()
+    db.refresh(report)
+    return report
