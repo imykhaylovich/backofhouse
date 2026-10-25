@@ -1,8 +1,16 @@
 # backofhouse
 # BackOfHouse
 
-Multi-tenant management portal for food businesses and nonprofits.
-Built with FastAPI, React, and Claude AI.
+# BackOfHouse
+
+Multi-tenant management platform for cafés, restaurants, and food pantries —
+inventory, orders, donations, and an AI assistant that answers questions about
+your live data.
+
+**Live demo:** https://backofhouse3.netlify.app
+**API:** https://backofhouse.onrender.com/docs
+
+> Note: the API is on a free tier and sleeps when idle — the first request may take ~50 seconds.
 
 ---
 
