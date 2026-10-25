@@ -61,6 +61,7 @@ export const DistributionsAPI = {
 
 export const ReportsAPI = {
   list: () => data(api.get("/reports/")),
+  generate: () => data(api.post("/reports/generate")),
 };
 
 export const ClaudeAPI = {

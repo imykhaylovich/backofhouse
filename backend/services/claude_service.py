@@ -75,7 +75,8 @@ This week's activity:
 - {len(distributions)} distributions, {households} households served
 
 Keep it under 250 words, plain English, for a manager who is not technical.
-Cover: overall status, what needs restocking, and 2-3 action items for next week."""
+Cover: overall status, what needs restocking, and 2-3 action items for next week.
+Write in plain text with no markdown formatting, no # or * characters."""
     response = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=1000,

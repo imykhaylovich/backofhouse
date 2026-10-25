@@ -21,9 +21,8 @@ function ReportCard({ report, defaultOpen }) {
         </div>
       </div>
       <p
-        className={`mt-4 text-[15px] leading-relaxed whitespace-pre-line text-ink-2 ${
-          !open && long ? "line-clamp-4" : ""
-        }`}
+        className={`mt-4 text-[15px] leading-relaxed whitespace-pre-line text-ink-2 ${!open && long ? "line-clamp-4" : ""
+          }`}
       >
         {text || "No text in this report."}
       </p>
@@ -41,7 +40,19 @@ function ReportCard({ report, defaultOpen }) {
 }
 
 export default function Reports() {
-  const { data: reports, loading, error } = useApi(() => ReportsAPI.list());
+  const { data: reports, loading, error, refresh } = useApi(() => ReportsAPI.list());
+
+  const [generating, setGenerating] = useState(false);
+
+  async function handleGenerate() {
+    setGenerating(true);
+    try {
+      await ReportsAPI.generate();
+      refresh();
+    } finally {
+      setGenerating(false);
+    }
+  }
 
   const list = [...(reports ?? [])].sort(
     (a, b) => new Date(b.week_start) - new Date(a.week_start)
@@ -53,6 +64,13 @@ export default function Reports() {
         title="Weekly reports"
         sub="Claude reads your week — inventory, movement, what's running low — and writes it up."
       />
+        <button
+        onClick={handleGenerate}
+        disabled={generating}
+        className="mb-8 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:border-ink-3 disabled:opacity-50"
+      >
+        {generating ? "Writing…" : "Generate this week's report"}
+      </button>
 
       {loading ? (
         <div className="flex justify-center py-24">
