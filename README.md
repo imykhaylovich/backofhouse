@@ -1,7 +1,5 @@
 # backofhouse
-# BackOfHouse
 
-# BackOfHouse
 
 Multi-tenant management platform for cafés, restaurants, and food pantries —
 inventory, orders, donations, and an AI assistant that answers questions about
