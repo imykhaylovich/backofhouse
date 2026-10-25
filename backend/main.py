@@ -7,7 +7,7 @@ from routers import auth, inventory, orders, donations, distributions, claude, r
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
-origins = ["http://localhost:5173"]
+origins = ["http://localhost:5173", "https://backofhouse3.netlify.app"]
 
 app.add_middleware(
     CORSMiddleware,
