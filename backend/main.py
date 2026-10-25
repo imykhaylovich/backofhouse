@@ -29,3 +29,4 @@ def root():
 
 app.include_router(claude.router, prefix="/claude", tags=["claude"])
 app.include_router(reports.router, prefix="/reports", tags=["reports"])
+origins = ["http://localhost:5173", "https://backofhouse3.netlify.app"]
